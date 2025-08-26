@@ -3,11 +3,17 @@
 # BetterWoxd
 from betterwoxd.engine.engine import Engine
 
-"""___Execution______________________________________________________________"""
+"""___Data__________________________________________________________________"""
 
-engine = Engine(users=["bwernest"])
-url = "https://letterboxd.com/bwernest/films/page/1/"
+users = [
+    "bwernest",
+    "zolkov",
+    "JP78310",
+]
 
-soup = engine.get_soup(url)
-result = soup.find_all("div", class_="react-component")
-print(len(result))
+"""___Execution_____________________________________________________________"""
+
+engine = Engine(["zolkov"])
+engine.build_database()
+for datum in engine.database["zolkov"]["films"]:
+    print(datum)

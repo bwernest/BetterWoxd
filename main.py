@@ -7,13 +7,11 @@ from betterwoxd.engine.engine import Engine
 
 users = [
     "bwernest",
-    "zolkov",
-    "JP78310",
 ]
 
 """___Execution_____________________________________________________________"""
 
-engine = Engine(["zolkov"])
+engine = Engine(users)
 engine.build_database()
-for datum in engine.database["zolkov"]["films"]:
+for datum in engine.database["bwernest"]["films"]:
     print(datum)
