@@ -1,0 +1,9 @@
+{
+    "prod": {
+        "test": false
+    },
+
+    "test": {
+        "test": true
+    }
+}

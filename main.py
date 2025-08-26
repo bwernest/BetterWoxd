@@ -1,23 +1,16 @@
-"""___Module________________________________________________________________"""
+"""___Modules_______________________________________________________________"""
 
-import requests
-from lxml import html
-from bs4 import BeautifulSoup
+# BetterWoxd
+from betterwoxd.engine.engine import Engine
 
-user = "bwernest"
-page = 1
+"""___Data__________________________________________________________________"""
 
-url = f"https://letterboxd.com/{user}/films/page/{page}/"
+users = [
+    "bwernest",
+]
 
-response = requests.get(url).text
-# html_file = html.fromstring(response)
-soup = BeautifulSoup(response, "html.parser")
+"""___Execution_____________________________________________________________"""
 
-def parse_films(soup):
-    films = []
-    for film in soup.find_all("div", class_="react-component"):
-        title = film.get("data-item-full-display-name")
-        films.append({"title": title})
-    return films
-
-print(parse_films(soup))
+engine = Engine(users)
+engine.build_database()
+print(engine.database)
