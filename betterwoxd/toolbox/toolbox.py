@@ -25,11 +25,11 @@ class ToolBox(Settings):
         valid_page = True
         pages_soup = []
         while valid_page:
-            url = f"https://letterboxd.com/{user}/films/page/{page}"
+            url = f"https://letterboxd.com/{user}/films/page/{page}/"
             try:
                 page_soup = self.get_soup(url)
                 result = page_soup.find_all("div", class_="react-component")
-                if len(result) == 1:
+                if len(result) < 2:
                     valid_page = False
                 else:
                     pages_soup.append(page_soup)
@@ -49,6 +49,13 @@ class ToolBox(Settings):
         films = []
         for page_soup in pages_soup:
             for film in page_soup.find_all("div", class_="react-component"):
-                title = film.get("data-item-full-display-name")
-                films.append({"title": title})
+                raw_title = film.get("data-item-full-display-name")
+                if raw_title is not None:
+                    title, year = self.split_title(raw_title)
+                    films.append({"title": title, "year": year})
         return films
+
+    def split_title(self, raw_title: str) -> tuple[str, int]:
+        title, year = raw_title.rsplit(" (", 1)
+        year = int(year[:-1])  # Remove the closing parenthesis and convert to int
+        return title, year
