@@ -12,5 +12,4 @@ class Engine(ToolBox):
     def build_database(self):
         self.database = {}
         for user in self.users:
-            soup = self.get_soup(user)
-            self.database[user] = self.scrap(soup)
+            self.database[user] = self.scrap(user)

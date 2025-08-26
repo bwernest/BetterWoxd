@@ -19,24 +19,36 @@ class ToolBox(Settings):
         }
         return data
 
-    def get_soup(self, user: str) -> BeautifulSoup:
+    def get_films_pages(self, user: str) -> list[BeautifulSoup]:
         print(f"Getting soup for user: {user}")
         page = 1
-        is_page = True
-        while is_page:
+        valid_page = True
+        pages_soup = []
+        while valid_page:
             url = f"https://letterboxd.com/{user}/films/page/{page}"
             try:
-                print(f"Page: {page}")
-                response = requests.get(url).text
-                soup = BeautifulSoup(response, "html.parser")
-                page += 1
+                page_soup = self.get_soup(url)
+                result = page_soup.find_all("div", class_="react-component")
+                if len(result) == 1:
+                    valid_page = False
+                else:
+                    pages_soup.append(page_soup)
+                    page += 1
             except requests.RequestException:
-                is_page = False
+                valid_page = False
+        return pages_soup
+
+    def get_soup(self, url: str) -> BeautifulSoup:
+        print(f"Getting soup for URL: {url}")
+        response = requests.get(url).text
+        soup = BeautifulSoup(response, "html.parser")
         return soup
 
-    def get_films(self, soup: BeautifulSoup) -> list:
+    def get_films(self, user: str) -> list:
+        pages_soup = self.get_films_pages(user)
         films = []
-        for film in soup.find_all("div", class_="react-component"):
-            title = film.get("data-item-full-display-name")
-            films.append({"title": title})
+        for page_soup in pages_soup:
+            for film in page_soup.find_all("div", class_="react-component"):
+                title = film.get("data-item-full-display-name")
+                films.append({"title": title})
         return films
