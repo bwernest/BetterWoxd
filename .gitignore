@@ -1,6 +1,7 @@
+main_dev.py
 
 # pixi environments
 .pixi
 *.egg-info
 *.pyc
-main_dev.py
+data/*

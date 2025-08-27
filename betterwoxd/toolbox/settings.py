@@ -8,9 +8,13 @@ class Settings:
 
     test: bool
 
-    def __init__(self):
+    def __init__(self, config: str = "prod") -> None:
         self.config_file = "settings.json"
-        self.settings = self.load_settings()
+        settings = self.load_settings()
+        self.settings = settings[config]
+
+        for key, value in self.settings.items():
+            setattr(self, key, value)
 
     def load_settings(self):
         try:
@@ -20,14 +24,3 @@ class Settings:
             return {}
         except json.JSONDecodeError:
             return {}
-
-    def get(self, key, default=None):
-        return self.settings.get(key, default)
-
-    def set(self, key, value):
-        self.settings[key] = value
-        self.save_settings()
-
-    def save_settings(self):
-        with open(self.config_file, "w") as f:
-            json.dump(self.settings, f, indent=4)

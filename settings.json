@@ -4,6 +4,8 @@
     },
 
     "test": {
-        "test": true
+        "test": true,
+        "data_path": "data/bwernest",
+        "export_path": "data/export"
     }
 }

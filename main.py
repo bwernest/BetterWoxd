@@ -11,7 +11,8 @@ users = [
 
 """___Execution_____________________________________________________________"""
 
-engine = Engine(users)
+engine = Engine("test")
+engine.set_users(users)
 engine.build_database()
-for datum in engine.database["bwernest"]["films"]:
-    print(datum)
+# for datum in engine.database["bwernest"]["films"]:
+#     print(datum)

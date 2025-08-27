@@ -1,13 +1,14 @@
 """___Modules_______________________________________________________________"""
 
+from time import time
 from ..toolbox import *
 
 """___Classes_______________________________________________________________"""
 
 class Engine(Comparator, ToolBox):
 
-    def __init__(self, users: list[str] = None) -> None:
-        self.users = users if users is not None else []
+    def set_users(self, users: list[str]) -> None:
+        self.users = users
 
     def build_database(self):
         self.database = {}
